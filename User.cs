@@ -33,35 +33,42 @@ namespace Record_and_prediction
         public static List<Product> Download_products(string file_path)
         {
             List<Product> products = new List<Product>();
-            using (TextFieldParser csvParser = new TextFieldParser(file_path, Encoding.Default))
+            try
             {
-                csvParser.CommentTokens = new string[] { "#" };
-                csvParser.SetDelimiters(new string[] { ";" });
-                csvParser.HasFieldsEnclosedInQuotes = false;
-                csvParser.ReadLine();
-
-                try
+                using (TextFieldParser csvParser = new TextFieldParser(file_path, Encoding.Default))
                 {
+                    csvParser.CommentTokens = new string[] { "#" };
+                    csvParser.SetDelimiters(new string[] { ";" });
+                    csvParser.HasFieldsEnclosedInQuotes = false;
+                    csvParser.ReadLine();
 
-                    int i = 0;
-                    while (!csvParser.EndOfData)
+                    try
                     {
-                        string[] fields = csvParser.ReadFields();
-                        var product = new Product(fields);
-                        if (prognozes.Count > i)
+                        int i = 0;
+                        while (!csvParser.EndOfData)
                         {
-                            product.prognoze = prognozes[i];
-                            product.history = records[i].ToList();
+                            string[] fields = csvParser.ReadFields();
+                            var product = new Product(fields);
+                            if (prognozes.Count > i)
+                            {
+                                product.prognoze = prognozes[i];
+                                product.history = records[i].ToList();
+                            }
+                            product.buy = product.prognoze - product.amount < 0 ? 0 : product.prognoze - product.amount;
+                            products.Add(product);
+                            i++;
                         }
-                        product.buy = product.prognoze - product.amount < 0 ? 0 : product.prognoze - product.amount;
-                        products.Add(product);
-                        i++;
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox.Show("Файл с данными о товаре был повреждён", "Ошибка", MessageBoxButtons.OK);
                     }
                 }
-                catch (Exception)
-                {
-                    MessageBox.Show("Файл с данными о товаре был повреждён ", "Ошибка", MessageBoxButtons.OK);
-                }
+                return products;
+            }
+            catch(FileNotFoundException e)
+            {
+                MessageBox.Show("Файл с данными не был найден", "Ошибка", MessageBoxButtons.OK);
             }
             return products;
         }
@@ -70,35 +77,48 @@ namespace Record_and_prediction
         {
             List<int[]> sell_records = new List<int[]>();
             List<int> prognoze = new List<int>();
-            using (TextFieldParser csvParser = new TextFieldParser(file_path, Encoding.Default))
+            try
             {
-                csvParser.CommentTokens = new string[] { "#" };
-                csvParser.SetDelimiters(new string[] { ";" });
-                csvParser.HasFieldsEnclosedInQuotes = false;
-                csvParser.ReadLine();
-
-                try
+                using (TextFieldParser csvParser = new TextFieldParser(file_path, Encoding.Default))
                 {
-                    while (!csvParser.EndOfData)
-                    {
-                        List<string> fields = csvParser.ReadFields().ToList();
-                        fields.RemoveRange(25, fields.Count - 25);
-                        var record_for_item = fields.GetRange(1, fields.Count - 1);
-                        List<int> record_for_item_int = new List<int>();
-                        for (int i = 0; i < record_for_item.Count; i++)
-                            record_for_item_int.Add(Convert.ToInt32(record_for_item[i]));
-                        sell_records.Add(record_for_item_int.ToArray());
-                    }
-                    records = sell_records;
-                    foreach (int[] record in sell_records)
-                        prognoze.Add(Prediction.Host_Winter(record.ToList()));
-                }
-                catch(Exception)
-                {
-                    MessageBox.Show("Файл с данными о продажах был повреждён", "Ошибка", MessageBoxButtons.OK);
+                    csvParser.CommentTokens = new string[] { "#" };
+                    csvParser.SetDelimiters(new string[] { ";" });
+                    csvParser.HasFieldsEnclosedInQuotes = false;
+                    csvParser.ReadLine();
+                    Read_fields(csvParser, sell_records, prognoze);
                 }
             }
+            catch(FileNotFoundException e)
+            {
+                MessageBox.Show("Файл с данными пользователя не найден", "Ошибка", MessageBoxButtons.OK);
+            }
             return prognoze;
+        }
+        public static void Read_fields(TextFieldParser csvParser, List<int[]> sell_records, List<int> prognoze)
+        {
+            try
+            {
+                while (!csvParser.EndOfData)
+                    Read_field(csvParser, sell_records);
+                records = sell_records;
+                foreach (int[] record in sell_records)
+                    prognoze.Add(Prediction.Host_Winter(record.ToList()));
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Файл с данными о продажах был повреждён", "Ошибка", MessageBoxButtons.OK);
+            }
+        }
+
+        public static void Read_field(TextFieldParser csvParser, List<int[]> sell_records)
+        {
+            List<string> fields = csvParser.ReadFields().ToList();
+            fields.RemoveRange(25, fields.Count - 25);
+            var record_for_item = fields.GetRange(1, fields.Count - 1);
+            List<int> record_for_item_int = new List<int>();
+            for (int i = 0; i < record_for_item.Count; i++)
+                record_for_item_int.Add(Convert.ToInt32(record_for_item[i]));
+            sell_records.Add(record_for_item_int.ToArray());
         }
     }
 }

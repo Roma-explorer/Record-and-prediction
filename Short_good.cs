@@ -35,6 +35,7 @@ namespace Record_and_prediction
         };
         int list_index;
         Goods_list goods_List;
+        bool isBeingEdited = false;
         public string set_measures
         {
             set { measure.Items.Add(value); }
@@ -62,7 +63,44 @@ namespace Record_and_prediction
             price.Text = Convert.ToString(_product.price);
             measure.Text = _product.measure;
             volume.Text = Convert.ToString(_product.sold_volume);
-            if(product.prognoze != -1)
+
+
+            work_name.Visible = false;
+            print_name.Visible = false;
+            code.Visible = false;
+            article.Visible = false;
+            amount.Visible = false;
+            category.Visible = false;
+            price.Visible = false;
+            measure.Visible = false;
+            volume.Visible = false;
+            prognose.Visible = false;
+            buy.Visible = false;
+
+            work_name_label.Visible = false;
+            print_name_label.Visible = false;
+            code_label.Visible = false;
+            article_label.Visible = false;
+            amount_label.Visible = false;
+            category_label.Visible = false;
+            price_label.Visible = false;
+            measure_label.Visible = false;
+            volume_label.Visible = false;
+            prognose_label.Visible = false;
+            buy_label.Visible = false;
+
+            work_name_display_content.Text = work_name.Text;
+            code_display_content.Text = code.Text;
+            article_display_content.Text = article.Text;
+            amount_display_content.Text = amount.Text;
+            category_display_content.Text = category.Text;
+            price_display_content.Text = price.Text;
+            measure_display_content.Text = measure.Text;
+            volume_display_content.Text = volume.Text;
+            prognose_display_content.Text = prognose.Text;
+            buy_display_content.Text = buy.Text;
+
+            if (product.prognoze != -1)
             {
                 prognose.Text = Convert.ToString(product.prognoze);
                 buy.Text = Convert.ToString(product.buy);
@@ -93,27 +131,9 @@ namespace Record_and_prediction
                 });
                 graphic.LegendLocation = LiveCharts.LegendLocation.Bottom;
                 SeriesCollection series = new SeriesCollection();
-                //int i = 0;
                 var double_months = months.Concat(months);
-                //foreach (var month in double_months)
-                //{
-                //    List<int> values = new List<int>();
-                //    values.Add(product.history[i]);
-                //    i++;
-                //    series.Add(new LineSeries() { Title = double_months.ToString(), Values = new ChartValues<int>(values);
-                //}
-                //series.Add(new LineSeries() { Title = double_months[0], Values = new ChartValues<int>();
                 series.Add(new LineSeries() { Title = "График продаж", Values = new ChartValues<int>(product.history) });
                 graphic.Series = series;
-                //graphic.
-
-                //graphic.ForeColor = Color.Blue;
-                //graphic.Series = new LiveCharts.SeriesCollection(product.history);
-                //for (int i = 0; i < product.history.Count; i++)
-                //{
-                //    graphic.Series[i].ScalesXAt = Convert.ToInt32(months[i % 12]);
-                //}
-                //graphic.AxisX = months;
             }
             else
                 graphic.Visible = false;
@@ -132,7 +152,6 @@ namespace Record_and_prediction
         private void article_KeyPress(object sender, KeyPressEventArgs e)
         {
             char l = e.KeyChar;
-            int[] digits = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 0 };
             int temp = 0;
             if (!int.TryParse(l.ToString(), out temp) && l != '\b')
             {
@@ -167,20 +186,12 @@ namespace Record_and_prediction
             string new_price = price.Text;
             double temp = 0;
             if (new_price != product.price.ToString())
-            {
                 if (!double.TryParse(new_price, out temp))
-                {
                     MessageBox.Show("При вводе в это поле можно использовать цифры", "Неверный ввод", MessageBoxButtons.OK);
-                }
                 else
-                {
                     changed[4] = true;
-                }
-            }
             else
-            {
                 changed[4] = false;
-            }
         }
 
         private void amount_Leave(object sender, EventArgs e)
@@ -188,20 +199,12 @@ namespace Record_and_prediction
             string new_amount = amount.Text;
             int temp = 0;
             if (new_amount != product.amount.ToString())
-            {
                 if (!int.TryParse(new_amount, out temp))
-                {
                     MessageBox.Show("При вводе в это поле можно использовать цифры", "Неверный ввод", MessageBoxButtons.OK);
-                }
                 else
-                {
                     changed[7] = true;
-                }
-            }
             else
-            {
                 changed[7] = false;
-            }
         }
         private void volume_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -219,71 +222,40 @@ namespace Record_and_prediction
             int temp = 0;
             string new_volume = volume.Text;
             if (new_volume != product.sold_volume.ToString())
-            {
                 if (!int.TryParse(volume.Text, out temp))
-                {
                     MessageBox.Show("При вводе в это поле можно использовать цифры", "Неверный ввод", MessageBoxButtons.OK);
-                }
                 else
-                {
                     changed[8] = true;
-                }
-            }
             else
-            {
                 changed[8] = false;
-            }
         }
 
-        private void save_button_Click(object sender, EventArgs e)
+        private void write_change_to_csv()
         {
-            if (changed.Any(x => x == true))
+            using (TextFieldParser csvParser = new TextFieldParser(Globals.user.path_to_data, Encoding.GetEncoding(1251)))
             {
-                try
-                {
-                    product.history[23] = Convert.ToInt32(volume.Text);
-                    product = new Product(work_name.Text, print_name.Text, Convert.ToInt32(article.Text), code.Text,
-                        Convert.ToInt32(amount.Text), Convert.ToDouble(price.Text), measure.Text, category.Text, Convert.ToInt32(volume.Text), Convert.ToInt32(prognose.Text), Convert.ToInt32(buy.Text), product.history);
-                    
-                }
-                catch(Exception)
-                {
-                    MessageBox.Show("Вы не заполнили одно из полей", "Ошибка", MessageBoxButtons.OK);
-                }
-                Globals.products[list_index] = product;
-                Globals.user.products[list_index] = product;
-                goods_List.buttonlist[list_index].Text = work_name.Text;
-                using (TextFieldParser csvParser = new TextFieldParser(Globals.user.path_to_data, Encoding.GetEncoding(1251)))
-                {
-                    csvParser.CommentTokens = new string[] { "#" };
-                    csvParser.SetDelimiters(new string[] { ";" });
-                    csvParser.HasFieldsEnclosedInQuotes = false;
+                csvParser.CommentTokens = new string[] { "#" };
+                csvParser.SetDelimiters(new string[] { ";" });
+                csvParser.HasFieldsEnclosedInQuotes = false;
 
-
-                    string line;
-                    List<String> lines = new List<String>();
-                    lines.Add(csvParser.ReadLine());
-                    int i = 1;
-                    while ((line = csvParser.ReadLine()) != null)
-                    {
-                        if (i == list_index+1)
-                        {
-                            lines.Add(work_name.Text + ';' + print_name.Text + ';' + code.Text + ';' + article.Text + ';' + amount.Text + ';' + price.Text + ';' + measure.Text + ';' + category.Text + ';' + volume.Text);
-                        }
-                        else
-                            lines.Add(line);
-                        i++;
-                    }
-                    using (StreamWriter writer = new StreamWriter(Globals.user.path_to_data, false, Encoding.GetEncoding(1251)))
-                    {
-                        foreach (string _line in lines)
-                            writer.WriteLine(_line);
-                    }
+                string line;
+                List<String> lines = new List<String>();
+                lines.Add(csvParser.ReadLine());
+                int i = 1;
+                while ((line = csvParser.ReadLine()) != null)
+                {
+                    if (i == list_index + 1)
+                        lines.Add(work_name.Text + ';' + print_name.Text + ';' + code.Text + ';' + article.Text + ';' + amount.Text + ';' + price.Text + ';' + measure.Text + ';' + category.Text + ';' + volume.Text);
+                    else
+                        lines.Add(line);
+                    i++;
                 }
-                changed.Select(x => x = false);
+                using (StreamWriter writer = new StreamWriter(Globals.user.path_to_data, false, Encoding.GetEncoding(1251)))
+                {
+                    foreach (string _line in lines)
+                        writer.WriteLine(_line);
+                }
             }
-            else
-                MessageBox.Show("Вы ничего не изменили", "Сообщение", MessageBoxButtons.OK);
         }
 
         private void work_name_Leave(object sender, EventArgs e)
@@ -361,6 +333,140 @@ namespace Record_and_prediction
                 changed[6] = true;
             else
                 changed[6] = false;
+        }
+
+        private void edit_button_Click(object sender, EventArgs e)
+        {
+            if (isBeingEdited)
+            {
+                edit_button.Text = "Редактировать";
+                isBeingEdited = false;
+                
+                work_name.Visible = false;
+                print_name.Visible = false;
+                code.Visible = false;
+                article.Visible = false;
+                amount.Visible = false;
+                category.Visible = false;
+                price.Visible = false;
+                measure.Visible = false;
+                volume.Visible = false;
+                prognose.Visible = false;
+                buy.Visible = false;
+
+                work_name_label.Visible = false;
+                print_name_label.Visible = false;
+                code_label.Visible = false;
+                article_label.Visible = false;
+                amount_label.Visible = false;
+                category_label.Visible = false;
+                price_label.Visible = false;
+                measure_label.Visible = false;
+                volume_label.Visible = false;
+                prognose_label.Visible = false;
+                buy_label.Visible = false;
+
+                code_display_label.Visible = true;
+                article_display_label.Visible = true;
+                amount_display_label.Visible = true;
+                category_display_label.Visible = true;
+                price_display_label.Visible = true;
+                volume_display_label.Visible = true;
+                prognose_display_label.Visible = true;
+                buy_display_label.Visible = true;
+
+                work_name_display_content.Visible = true;
+                code_display_content.Visible = true;
+                article_display_content.Visible = true;
+                amount_display_content.Visible = true;
+                category_display_content.Visible = true;
+                price_display_content.Visible = true;
+                measure_display_content.Visible = true;
+                volume_display_content.Visible = true;
+                prognose_display_content.Visible = true;
+                buy_display_content.Visible = true;
+
+                work_name_display_content.Text = work_name.Text;
+                code_display_content.Text = code.Text;
+                article_display_content.Text = article.Text;
+                amount_display_content.Text = amount.Text;
+                category_display_content.Text = category.Text;
+                price_display_content.Text = price.Text;
+                measure_display_content.Text = measure.Text;
+                volume_display_content.Text = volume.Text;
+                prognose_display_content.Text = prognose.Text;
+                buy_display_content.Text = buy.Text;
+
+                if (changed.Any(x => x == true))
+                {
+                    try
+                    {
+                        product.history[23] = Convert.ToInt32(volume.Text);
+                        product = new Product(work_name.Text, print_name.Text, Convert.ToInt32(article.Text), code.Text,
+                            Convert.ToInt32(amount.Text), Convert.ToDouble(price.Text), measure.Text, category.Text, Convert.ToInt32(volume.Text),
+                            Convert.ToInt32(prognose.Text), Convert.ToInt32(buy.Text), product.history);
+
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox.Show("Вы не заполнили одно из полей", "Ошибка", MessageBoxButtons.OK);
+                    }
+                    Globals.products[list_index] = product;
+                    Globals.user.products[list_index] = product;
+                    goods_List.buttonlist[list_index].Text = work_name.Text;
+                    write_change_to_csv();
+                    changed.Select(x => x = false);
+                }
+            }
+            else
+            {
+                edit_button.Text = "Сохранить";
+                isBeingEdited = true;
+
+                work_name.Visible = true;
+                print_name.Visible = true;
+                code.Visible = true;
+                article.Visible = true;
+                amount.Visible = true;
+                category.Visible = true;
+                price.Visible = true;
+                measure.Visible = true;
+                volume.Visible = true;
+                prognose.Visible = true;
+                buy.Visible = true;
+
+                work_name_label.Visible = true;
+                print_name_label.Visible = true;
+                code_label.Visible = true;
+                article_label.Visible = true;
+                amount_label.Visible = true;
+                category_label.Visible = true;
+                price_label.Visible = true;
+                measure_label.Visible = true;
+                volume_label.Visible = true;
+                prognose_label.Visible = true;
+                buy_label.Visible = true;
+
+                code_display_label.Visible = false;
+                article_display_label.Visible = false;
+                amount_display_label.Visible = false;
+                category_display_label.Visible = false;
+                price_display_label.Visible = false;
+                volume_display_label.Visible = false;
+                prognose_display_label.Visible = false;
+                buy_display_label.Visible = false;
+
+                work_name_display_content.Visible = false;
+                code_display_content.Visible = false;
+                article_display_content.Visible = false;
+                amount_display_content.Visible = false;
+                category_display_content.Visible = false;
+                price_display_content.Visible = false;
+                measure_display_content.Visible = false;
+                volume_display_content.Visible = false;
+                prognose_display_content.Visible = false;
+                buy_display_content.Visible = false;
+            }
         }
     }
 }
