@@ -45,6 +45,7 @@
             // 
             this.MenuDataSplit.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MenuDataSplit.Location = new System.Drawing.Point(0, 0);
+            this.MenuDataSplit.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MenuDataSplit.Name = "MenuDataSplit";
             // 
             // MenuDataSplit.Panel1
@@ -56,17 +57,19 @@
             // MenuDataSplit.Panel2
             // 
             this.MenuDataSplit.Panel2.Controls.Add(this.ProductDataSplit);
-            this.MenuDataSplit.Size = new System.Drawing.Size(1046, 562);
-            this.MenuDataSplit.SplitterDistance = 169;
+            this.MenuDataSplit.Size = new System.Drawing.Size(1569, 865);
+            this.MenuDataSplit.SplitterDistance = 253;
+            this.MenuDataSplit.SplitterWidth = 6;
             this.MenuDataSplit.TabIndex = 0;
             // 
             // Leave
             // 
             this.Leave.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.Leave.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.Leave.Location = new System.Drawing.Point(0, 527);
+            this.Leave.Location = new System.Drawing.Point(0, 811);
+            this.Leave.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Leave.Name = "Leave";
-            this.Leave.Size = new System.Drawing.Size(169, 35);
+            this.Leave.Size = new System.Drawing.Size(253, 54);
             this.Leave.TabIndex = 11;
             this.Leave.Text = "Выйти";
             this.Leave.UseVisualStyleBackColor = true;
@@ -78,9 +81,10 @@
             this.button3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.button3.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.button3.Location = new System.Drawing.Point(0, 50);
+            this.button3.Location = new System.Drawing.Point(0, 77);
+            this.button3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(169, 50);
+            this.button3.Size = new System.Drawing.Size(253, 77);
             this.button3.TabIndex = 10;
             this.button3.Text = "Отчёт";
             this.button3.UseVisualStyleBackColor = true;
@@ -93,8 +97,9 @@
             this.Show_goods_button.Cursor = System.Windows.Forms.Cursors.Hand;
             this.Show_goods_button.Dock = System.Windows.Forms.DockStyle.Top;
             this.Show_goods_button.Location = new System.Drawing.Point(0, 0);
+            this.Show_goods_button.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Show_goods_button.Name = "Show_goods_button";
-            this.Show_goods_button.Size = new System.Drawing.Size(169, 50);
+            this.Show_goods_button.Size = new System.Drawing.Size(253, 77);
             this.Show_goods_button.TabIndex = 8;
             this.Show_goods_button.Text = "Товар";
             this.Show_goods_button.UseVisualStyleBackColor = true;
@@ -104,22 +109,24 @@
             // 
             this.ProductDataSplit.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ProductDataSplit.Location = new System.Drawing.Point(0, 0);
+            this.ProductDataSplit.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.ProductDataSplit.Name = "ProductDataSplit";
-            this.ProductDataSplit.Size = new System.Drawing.Size(873, 562);
-            this.ProductDataSplit.SplitterDistance = 226;
+            this.ProductDataSplit.Size = new System.Drawing.Size(1310, 865);
+            this.ProductDataSplit.SplitterDistance = 339;
+            this.ProductDataSplit.SplitterWidth = 6;
             this.ProductDataSplit.TabIndex = 0;
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
-            this.BackColor = System.Drawing.Color.LightGreen;
+            this.BackColor = System.Drawing.Color.DarkSlateGray;
             this.CancelButton = this.Leave;
-            this.ClientSize = new System.Drawing.Size(1046, 562);
+            this.ClientSize = new System.Drawing.Size(1569, 865);
             this.Controls.Add(this.MenuDataSplit);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "Form1";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
