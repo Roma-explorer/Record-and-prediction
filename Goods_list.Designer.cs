@@ -1,4 +1,6 @@
-﻿namespace Record_and_prediction
+﻿using System.Drawing;
+
+namespace Record_and_prediction
 {
     partial class Goods_list
     {
@@ -40,10 +42,13 @@
             this.add_product.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.add_product.Location = new System.Drawing.Point(0, 338);
             this.add_product.Name = "add_product";
-            this.add_product.Size = new System.Drawing.Size(296, 23);
+            this.add_product.Size = new System.Drawing.Size(296, 50);
             this.add_product.TabIndex = 0;
             this.add_product.Text = "Добавить товар ";
             this.add_product.UseVisualStyleBackColor = true;
+            this.add_product.BackColor = Color.White;
+            this.add_product.ForeColor = Color.DarkSlateGray;
+            this.add_product.Font = new Font("Microsoft Sans Serif", 14);
             this.add_product.Click += new System.EventHandler(this.add_product_Click);
             // 
             // download_goods
@@ -52,10 +57,13 @@
             this.download_goods.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.download_goods.Location = new System.Drawing.Point(0, 315);
             this.download_goods.Name = "download_goods";
-            this.download_goods.Size = new System.Drawing.Size(296, 23);
+            this.download_goods.Size = new System.Drawing.Size(296, 50);
             this.download_goods.TabIndex = 1;
             this.download_goods.Text = "Загрузить товары ";
             this.download_goods.UseVisualStyleBackColor = true;
+            this.download_goods.BackColor = Color.White;
+            this.download_goods.ForeColor = Color.DarkSlateGray;
+            this.download_goods.Font = new Font("Microsoft Sans Serif", 14);
             this.download_goods.Click += new System.EventHandler(this.download_goods_Click);
             // 
             // openFileDialog1
@@ -70,7 +78,7 @@
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(296, 315);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(380, 300);
             this.flowLayoutPanel1.TabIndex = 4;
             // 
             // Goods_list
@@ -81,7 +89,7 @@
             this.Controls.Add(this.download_goods);
             this.Controls.Add(this.add_product);
             this.Name = "Goods_list";
-            this.Size = new System.Drawing.Size(296, 361);
+            this.Size = new System.Drawing.Size(296, 300);
             this.Load += new System.EventHandler(this.Goods_list_Load);
             this.ResumeLayout(false);
 

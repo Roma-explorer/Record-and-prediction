@@ -95,8 +95,8 @@ namespace Record_and_prediction
                 Product product = new Product(work_name.Text, print_name.Text, Convert.ToInt32(article.Text), code.Text,
                     Convert.ToInt32(amount.Text), Convert.ToDouble(price.Text), measure.Text, category.Text, Convert.ToInt32(volume.Text));
                 goods_List.Add_button(product);
-                Globals.products.Add(product);
                 Globals.user.products.Add(product);
+                Globals.products.Add(product);
                 if (!Globals.categories.Contains(category.Text))
                     Globals.categories.Add(category.Text);
                 if (!Globals.measures.Contains(measure.Text))

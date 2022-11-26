@@ -175,7 +175,7 @@
             this.button_save.BackColor = System.Drawing.Color.White;
             this.button_save.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.button_save.ForeColor = System.Drawing.Color.DarkSlateGray;
-            this.button_save.Location = new System.Drawing.Point(304, 651);
+            this.button_save.Location = new System.Drawing.Point(296, 649);
             this.button_save.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.button_save.Name = "button_save";
             this.button_save.Size = new System.Drawing.Size(304, 61);
@@ -286,7 +286,7 @@
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label10.ForeColor = System.Drawing.Color.White;
-            this.label10.Location = new System.Drawing.Point(243, 37);
+            this.label10.Location = new System.Drawing.Point(288, 33);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(320, 46);
             this.label10.TabIndex = 19;
@@ -297,7 +297,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkSlateGray;
-            this.ClientSize = new System.Drawing.Size(911, 746);
+            this.ClientSize = new System.Drawing.Size(911, 836);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.measure);
             this.Controls.Add(this.label9);
@@ -318,10 +318,9 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.work_name);
             this.Controls.Add(this.label1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "save_button";
-            this.Text = "Добавить товар";
             this.Click += new System.EventHandler(this.save_button_Click);
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -12,6 +12,9 @@ using Microsoft.VisualBasic.FileIO;
 using LiveCharts.Wpf;
 using LiveCharts;
 using LiveCharts.Defaults;
+using System.Windows.Media;
+
+[assembly:DisableDpiAwareness]
 
 namespace Record_and_prediction
 {
@@ -64,6 +67,16 @@ namespace Record_and_prediction
             measure.Text = _product.measure;
             volume.Text = Convert.ToString(_product.sold_volume);
 
+            if (product.prognoze != -1)
+            {
+                prognose.Text = Convert.ToString(product.prognoze);
+                buy.Text = Convert.ToString(product.buy);
+            }
+            else
+            {
+                prognose.Text = "---";
+                buy.Text = "---";
+            }
 
             work_name.Visible = false;
             print_name.Visible = false;
@@ -89,6 +102,10 @@ namespace Record_and_prediction
             prognose_label.Visible = false;
             buy_label.Visible = false;
 
+            rubles_1.ForeColor = System.Drawing.Color.White;
+            rubles_2.ForeColor = System.Drawing.Color.White;
+            rubles_3.ForeColor = System.Drawing.Color.White;
+
             work_name_display_content.Text = work_name.Text;
             code_display_content.Text = code.Text;
             article_display_content.Text = article.Text;
@@ -96,20 +113,11 @@ namespace Record_and_prediction
             category_display_content.Text = category.Text;
             price_display_content.Text = price.Text;
             measure_display_content.Text = measure.Text;
+            measure_display_content_2.Text = measure.Text;
             volume_display_content.Text = volume.Text;
             prognose_display_content.Text = prognose.Text;
             buy_display_content.Text = buy.Text;
 
-            if (product.prognoze != -1)
-            {
-                prognose.Text = Convert.ToString(product.prognoze);
-                buy.Text = Convert.ToString(product.buy);
-            }
-            else
-            {
-                prognose.Text = "Недостаточно данных";
-                buy.Text = "Недостаточно данных";
-            }
             category.Items.AddRange(Globals.categories.ToArray());
             measure.Items.AddRange(Globals.measures.ToArray());
             Create_Graphic(product);
@@ -382,9 +390,13 @@ namespace Record_and_prediction
                 category_display_content.Visible = true;
                 price_display_content.Visible = true;
                 measure_display_content.Visible = true;
+                measure_display_content_2.Visible = true;
                 volume_display_content.Visible = true;
                 prognose_display_content.Visible = true;
                 buy_display_content.Visible = true;
+                rubles_1.Visible = true;
+                rubles_2.Visible = true;
+                rubles_3.Visible = true;
 
                 work_name_display_content.Text = work_name.Text;
                 code_display_content.Text = code.Text;
@@ -393,6 +405,7 @@ namespace Record_and_prediction
                 category_display_content.Text = category.Text;
                 price_display_content.Text = price.Text;
                 measure_display_content.Text = measure.Text;
+                measure_display_content_2.Text = measure.Text;
                 volume_display_content.Text = volume.Text;
                 prognose_display_content.Text = prognose.Text;
                 buy_display_content.Text = buy.Text;
@@ -463,9 +476,13 @@ namespace Record_and_prediction
                 category_display_content.Visible = false;
                 price_display_content.Visible = false;
                 measure_display_content.Visible = false;
+                measure_display_content_2.Visible = false;
                 volume_display_content.Visible = false;
                 prognose_display_content.Visible = false;
                 buy_display_content.Visible = false;
+                rubles_1.Visible = false;
+                rubles_2.Visible = false;
+                rubles_3.Visible = false;
             }
         }
     }

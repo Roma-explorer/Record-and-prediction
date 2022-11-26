@@ -137,10 +137,9 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "Log_in";
-            this.Text = "Вход";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Log_in_FormClosing);
             this.Load += new System.EventHandler(this.Log_in_Load);
             this.ResumeLayout(false);

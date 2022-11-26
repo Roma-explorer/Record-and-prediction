@@ -83,7 +83,7 @@ namespace Record_and_prediction
                 }
             }
             else
-                this.Text = "No products";
+                this.Text = "Нет продуктов";
         }
 
         public void Add_button(Product product)
@@ -91,8 +91,10 @@ namespace Record_and_prediction
             Button b = new Button();
             b.Text = product.work_name;
             b.Width = flowLayoutPanel1.Width;
-            b.Height = 25;
-            b.BackColor = Color.LightSteelBlue;
+            b.Height = 40;
+            b.BackColor = Color.DarkSlateGray;
+            b.ForeColor = Color.White;
+            b.Font = new Font("Microsoft Sans Serif", 12);
             b.Dock = DockStyle.Top;
             b.AutoEllipsis = true;
             b.AutoSizeMode = AutoSizeMode.GrowAndShrink;
