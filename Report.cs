@@ -22,6 +22,7 @@ namespace Record_and_prediction
             sort_box.Items.Add("По числу продаж за последний месяц");
             sort_box.Items.Add("По прогнозу на следующий месяц");
             sort_box.Items.Add("По прибыли");
+            sort_box.Items.Add("По чистой прибыли");
         }
 
         private void category_box_SelectedIndexChanged(object sender, EventArgs e)
@@ -48,15 +49,20 @@ namespace Record_and_prediction
                     to_display = Globals.products.OrderByDescending(x => x.sold_volume).ToList();
                 else
                     if (sort == "По прогнозу на следующий месяц")
-                    to_display = Globals.products.OrderByDescending(x => x.prognoze).ToList();
+                        to_display = Globals.products.OrderByDescending(x => x.prognoze).ToList();
                 else
-                    to_display = Globals.products.OrderByDescending(x => x.sold_volume * x.price).ToList();
+                    if (sort == "По прибыли")
+                        to_display = Globals.products.OrderByDescending(x => x.sold_volume * x.price).ToList();
+                    else
+                        to_display = Globals.products.OrderByDescending(x => x.sold_volume * x.price - x.sold_volume * x.prime_cost).ToList();
                 foreach (Product product in to_display)
                 {
                     string result = "";
                     string buy = "";
                     Check_history(ref result, ref buy, product);
-                    table.Rows.Add(product.work_name, product.article, product.price, product.amount, product.sold_volume, product.category, result, buy, product.sold_volume * product.price);
+                    table.Rows.Add(product.work_name, product.article, product.price, product.amount, 
+                        product.sold_volume, product.category, result, buy, product.sold_volume * product.price, 
+                        product.sold_volume * product.price - product.sold_volume * product.prime_cost);
                 }
             }
             else
@@ -67,14 +73,19 @@ namespace Record_and_prediction
                 else
                     if (sort == "По прогнозу на следующий месяц")
                         to_display = Globals.products.Where(y => y.category == category ).ToList().OrderByDescending(x => x.prognoze).ToList();
-                    else                                                                                           
-                        to_display = Globals.products.Where(y => y.category == category).ToList().OrderByDescending(x => x.sold_volume * x.price).ToList();
+                    else
+                        if (sort == "По прибыли")
+                            to_display = Globals.products.OrderByDescending(x => x.sold_volume * x.price).ToList();
+                        else
+                            to_display = Globals.products.OrderByDescending(x => x.sold_volume * x.price - x.sold_volume * x.prime_cost).ToList();
                 foreach (Product product in to_display)
                 {
                     string result = "";
                     string buy = "";
                     Check_history(ref result, ref buy, product);
-                    table.Rows.Add(product.work_name, product.article, product.price, product.amount, product.sold_volume, product.category,  result, buy, product.sold_volume * product.price);
+                    table.Rows.Add(product.work_name, product.article, product.price, product.amount, 
+                        product.sold_volume, product.category, result, buy, product.sold_volume * product.price, 
+                        product.sold_volume * product.price - product.sold_volume * product.prime_cost);
                 }
             }
         }

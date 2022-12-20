@@ -20,8 +20,10 @@ namespace Record_and_prediction
         public List<int> history;
         public int prognoze = -1;
         public int buy;
+        public double prime_cost;
 
-        public Product(string in_work_name, string in_print_name, int in_article, string in_code, int in_amount, double in_price, string in_measure, string in_category, int in_sold_volume)
+        public Product(string in_work_name, string in_print_name, int in_article, string in_code, int in_amount, 
+            double in_price, string in_measure, string in_category, int in_sold_volume)
         {
             work_name = in_work_name;
             print_name = in_print_name;
@@ -49,6 +51,38 @@ namespace Record_and_prediction
             buy = _buy;
             history = _history;
         }
+        // with cost
+        public Product(string in_work_name, string in_print_name, int in_article, string in_code, int in_amount, 
+            double in_price, double in_prime_cost, string in_measure, string in_category, int in_sold_volume)
+        {
+            work_name = in_work_name;
+            print_name = in_print_name;
+            article = in_article;
+            code = in_code;
+            amount = in_amount;
+            price = in_price;
+            measure = in_measure;
+            sold_volume = in_sold_volume;
+            category = in_category;
+            prime_cost = in_prime_cost;
+        }
+        public Product(string in_work_name, string in_print_name, int in_article, string in_code, int in_amount, double in_price, 
+            string in_measure, string in_category, int in_sold_volume, double in_prime_cost, int _prognose, int _buy, List<int> _history)
+        {
+            work_name = in_work_name;
+            print_name = in_print_name;
+            article = in_article;
+            code = in_code;
+            amount = in_amount;
+            price = in_price;
+            measure = in_measure;
+            sold_volume = in_sold_volume;
+            category = in_category;
+            prime_cost = in_prime_cost;
+            prognoze = _prognose;
+            buy = _buy;
+            history = _history;
+        }
         public Product(string[] fields)
         {
             work_name = fields[0];
@@ -60,6 +94,10 @@ namespace Record_and_prediction
             measure = fields[6];
             category = fields[7];
             sold_volume = Convert.ToInt32(fields[8]);
+            if (fields.Length > 9)
+            {
+                prime_cost = Convert.ToDouble(fields[9]);
+            }
             if (!Globals.categories.Contains(category))
                 Globals.categories.Add(category);
             if (!Globals.measures.Contains(measure))

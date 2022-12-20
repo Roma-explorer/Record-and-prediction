@@ -13,7 +13,7 @@ namespace Record_and_prediction
 {
     public partial class save_button : Form
     {
-        List<bool> added = new bool[9] { false, false, false, false, false, false, false, false, false }.ToList();
+        List<bool> added = new bool[10] { false, false, false, false, false, false, false, false, false, false }.ToList();
         Goods_list goods_List;
         public save_button(Goods_list _goods_List)
         {
@@ -82,18 +82,19 @@ namespace Record_and_prediction
         private void save_button_Click(object sender, EventArgs e)
         {
             
-            if (work_name.Text != "" && print_name.Text != "" && code.Text != "" && article.Text != "" && 
-                amount.Text != "" && category.Text != "" && price.Text != "" && measure.Text != "" && volume.Text != "")
+            if (work_name.Text != "" && print_name.Text != "" && code.Text != "" && article.Text != "" && price.Text != "" &&
+                amount.Text != "" && category.Text != "" && prime_cost.Text != "" && measure.Text != "" && volume.Text != "")
             {
                 if (added.Any(x => x == true))
                 {
                     MessageBox.Show("В одном из полей некорректный ввод", "Сообщение", MessageBoxButtons.OK);
                     return;
                 }
-                string line = string.Concat(work_name.Text, ';', print_name.Text, ';', code.Text, ';', article.Text, ';', amount.Text, ';', price.Text, ';', measure.Text, ';', category.Text, ';', volume.Text, '\n');
+                string line = string.Concat(work_name.Text, ';', print_name.Text, ';', code.Text, ';', article.Text, ';', amount.Text, ';', prime_cost.Text, ';', measure.Text, ';', category.Text, ';', volume.Text, '\n');
                 File.AppendAllText(Globals.user.path_to_data, line, Encoding.GetEncoding(1251));
                 Product product = new Product(work_name.Text, print_name.Text, Convert.ToInt32(article.Text), code.Text,
-                    Convert.ToInt32(amount.Text), Convert.ToDouble(price.Text), measure.Text, category.Text, Convert.ToInt32(volume.Text));
+                    Convert.ToInt32(amount.Text), Convert.ToDouble(price.Text), Convert.ToDouble(prime_cost.Text),
+                    measure.Text, category.Text, Convert.ToInt32(volume.Text));
                 goods_List.Add_button(product);
                 Globals.user.products.Add(product);
                 Globals.products.Add(product);
@@ -128,6 +129,30 @@ namespace Record_and_prediction
             {
                 MessageBox.Show("Введено неверное число", "Неверный ввод", MessageBoxButtons.OK);
             }
+        }
+
+        private void prime_cost_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char l = e.KeyChar;
+            int temp = 0;
+            if ((l == '.' || !int.TryParse(l.ToString(), out temp)) && l != '\b')
+            {
+                MessageBox.Show("При вводе в это поле можно использовать цифры", "Неверный ввод", MessageBoxButtons.OK);
+                e.Handled = true;
+            }
+        }
+
+        private void prime_cost_Leave(object sender, EventArgs e)
+        {
+            string new_price = prime_cost.Text;
+            double temp = 0;
+            if (!double.TryParse(new_price, out temp))
+            {
+                MessageBox.Show("Введено неверное число", "Неверный ввод", MessageBoxButtons.OK);
+                added[9] = true;
+            }
+            else
+                added[9] = false;
         }
     }
 }
