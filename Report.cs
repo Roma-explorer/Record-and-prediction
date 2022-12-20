@@ -21,7 +21,7 @@ namespace Record_and_prediction
             category_box.Items.Add("Все");
             sort_box.Items.Add("По числу продаж за последний месяц");
             sort_box.Items.Add("По прогнозу на следующий месяц");
-            sort_box.Items.Add("По маржинальности");
+            sort_box.Items.Add("По прибыли");
         }
 
         private void category_box_SelectedIndexChanged(object sender, EventArgs e)
@@ -55,7 +55,7 @@ namespace Record_and_prediction
                 {
                     string result = "";
                     string buy = "";
-                    Check_history(result, buy, product);
+                    Check_history(ref result, ref buy, product);
                     table.Rows.Add(product.work_name, product.article, product.price, product.amount, product.sold_volume, product.category, result, buy, product.sold_volume * product.price);
                 }
             }
@@ -73,13 +73,13 @@ namespace Record_and_prediction
                 {
                     string result = "";
                     string buy = "";
-                    Check_history(result, buy, product);
+                    Check_history(ref result, ref buy, product);
                     table.Rows.Add(product.work_name, product.article, product.price, product.amount, product.sold_volume, product.category,  result, buy, product.sold_volume * product.price);
                 }
             }
         }
 
-        public void Check_history(string result, string buy, Product product)
+        public static void Check_history(ref string result,ref string buy, Product product)
         {
             if (product.prognoze != -1)
                 result = Convert.ToString(product.prognoze);
